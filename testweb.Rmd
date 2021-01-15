@@ -1,0 +1,51 @@
+---
+title: "Untitled"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: scroll
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(shiny)
+library(knitr)
+library(dplyr)
+library(widgetframe)
+```
+
+
+
+
+Plots
+============================================
+
+
+
+### Chart A
+
+
+
+```{r}
+
+plot(cars)
+```
+
+
+
+
+### Chart B
+
+Section two.
+
+```{r}
+colnames(cars)
+```
+
+### Chart C
+
+Section three.
+```{r}
+dim(cars)
+```
+

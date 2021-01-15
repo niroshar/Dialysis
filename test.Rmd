@@ -1,0 +1,96 @@
+---
+title: "Tobacco Retail Check"
+runtime: shiny
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    vertical_layout: scroll
+    css: my_theme.css
+    # includes:
+    #   after_body: footer.html
+social: ["linkedin","facebook","google-plus","twitter"]
+---
+
+
+
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(dplyr)  
+library(leaflet)  
+library(DT)  
+library(crosstalk)
+library(ggplot2)
+library(plotly)
+library(tidyverse)
+library(widgetframe)
+library(crosstalk)
+library(shiny)
+library(RColorBrewer)
+
+# source("data_prep.R")
+# load("fdadata.RData")
+# sch <- fdadata
+# sch <- readRDS("fdadata.RDS")
+# # sch <- readRDS("gias_sample.RDS")
+# # sch <- read.csv("gias_sample.csv")
+# # sch <- sch0 
+# sch$Latitude <- as.numeric(sch$Latitude)
+# sch$Longitude <- as.numeric(sch$Longitude)
+# sd <- SharedData$new(sch)
+
+```
+
+
+
+Sidebar {.sidebar}
+=====================================  
+
+### **Select here !!!**
+
+```{r filters}
+
+sel_spd <<- reactive({
+  df <- read.csv("df.csv")
+  df %>% select(speed) %>% unique() 
+})
+
+# renderUI({ 
+#   selectInput("sel_n",h5(tags$b(span("Speed", style="color:white")), align="center"),choices = sel_spd())
+#   
+# })
+
+renderUI({
+  numericInput("sel_n", h5(tags$b(span("Speed", style="color:white"))), 5, min=5, max=25)
+})
+
+
+```
+
+
+Plots
+============================================
+
+
+
+### Chart A
+
+
+
+```{r}
+
+df_sub <<- reactive({
+  df <- read.csv("df.csv")
+  df %>% select(speed, dist) %>% filter(speed < input$sel_n)
+ 
+})
+
+
+renderPlot({
+  if(input$sel_n >= 4){
+       df_sub() %>% plot() 
+  }
+})
+```
+
+

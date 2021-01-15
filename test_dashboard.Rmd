@@ -1,0 +1,78 @@
+---
+title: "Untitled"
+runtime: shiny
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: scroll
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(shiny)
+library(knitr)
+library(dplyr)
+library(widgetframe)
+```
+
+
+
+Sidebar {.sidebar}
+=====================================  
+
+### **Select here !!!**
+
+```{r global}
+
+sel_spd <<- reactive({
+  cars %>% unique(speed) 
+})
+
+renderUI({ 
+  selectInput("sel_n",h5(tags$b(span("Zip Code", style="color:white")), align="center"),choices = sel_spd())
+  
+})
+```
+
+
+Plots
+============================================
+
+
+
+### Chart A
+
+
+
+```{r}
+
+df <<- reactive({
+  data(cars)
+  cars %>% filter(speed <= input$sel_n)
+ 
+})
+
+
+renderPlot({
+   df() %>% plot()  
+})
+```
+
+
+
+
+### Chart B
+
+Section two.
+
+```{r}
+colnames(cars)
+```
+
+### Chart C
+
+Section three.
+```{r}
+dim(cars)
+```
+
